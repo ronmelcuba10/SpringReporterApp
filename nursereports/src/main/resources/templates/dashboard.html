@@ -1,0 +1,63 @@
+<!DOCTYPE HTML>
+<html th:replace="~{main :: layout('Dashboard', ~{::main}, 'dashboard.css', 'dashboard.js')}" xmlns:th="http://www.thymeleaf.org">>
+
+<body>
+
+
+    <main>
+        <h1 th:text="'Nurses of the system ' + ${name}"></h1>
+        <table>
+            <tr>
+                <th>First Name</th>
+                <th>Middle Name</th>
+                <th>Last Name</th>
+            </tr>
+            <tr th:each="nurse : ${nurses}">
+                <td th:text="${nurse.firstName}"></td>
+                <td th:text="${nurse.middleName}"></td>
+                <td th:text="${nurse.lastName}"></td>
+            </tr>
+        </table>
+
+        <h1 th:text="'The selected nurse' + ${nurse}"> </h1>
+
+        <h1>All the patients</h1>
+        <table>
+            <tr>
+                <th>First Name</th>
+                <th>Middle Name</th>
+                <th>Last Name</th>
+                <th>Nurse</th>
+            </tr>
+            <tr th:each="patient : ${allpatients}">
+                <td th:text="${patient.firstName}"></td>
+                <td th:text="${patient.middleName}"></td>
+                <td th:text="${patient.lastName}"></td>
+                <td th:text="${patient.nurse.firstName}"></td>
+            </tr>
+        </table>
+
+        <div class="mt-3"></div>
+        <p th:text="'First Patient ' + ${patient.firstName} + ' ' + ${patient.lastName}"></p>
+
+
+        <h1 th:text="${nurse.firstName}">'s patients</h1>
+        <table>
+            <tr>
+                <th>First Name</th>
+                <th>Middle Name</th>
+                <th>Last Name</th>
+            </tr>
+            <tr th:each="np : ${nursepatients}">
+                <td th:text="${np.firstName}"></td>
+                <td th:text="${np.middleName}"></td>
+                <td th:text="${np.lastName}"></td>
+            </tr>
+        </table>
+
+
+    </main>
+
+
+</body>
+</html>
