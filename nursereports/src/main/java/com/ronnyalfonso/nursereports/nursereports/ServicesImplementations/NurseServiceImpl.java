@@ -32,9 +32,16 @@ public class NurseServiceImpl implements NurseService {
 
 
     public void register(Nurse nurse) {
+        nurseRepository.save(nurse);
     }
 
-    public Nurse validateNurse(Login login) {
-        return new Nurse();
+    @Override
+    public Nurse findByUserNameAndPassword(String userName, String password) {
+        return null;
+    }
+
+    @Override
+    public Nurse save(Nurse nurse) {
+        return nurseRepository.save(nurse);
     }
 }

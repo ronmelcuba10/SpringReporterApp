@@ -34,7 +34,7 @@ public class RegistrationController {
     }
 
     @RequestMapping(value=REGISTERED_URL, method = RequestMethod.POST)
-    public ModelAndView addUser(HttpServletRequest request, HttpServletResponse response, @ModelAttribute(OBJECT_NAME) Nurse nurse){
+    public ModelAndView addNurse(HttpServletRequest request, HttpServletResponse response, @ModelAttribute(OBJECT_NAME) Nurse nurse){
         nurseServiceImpl.register(nurse);
         return new ModelAndView( REGISTERED_SUCCESSFUL_VIEW, NURSE_NAME_FIELD, nurse.getFirstName());
     }

@@ -30,21 +30,27 @@ public class BootStrapData implements CommandLineRunner {
         n1.setFirstName("Mario");
         n1.setMiddleName("P");
         n1.setLastName("Perez");
+        n1.setUserName("mario");
+        n1.setPassword("mario123");
         nurseRepository.save(n1);
 
         Nurse n2 = new Nurse();
         n2.setFirstName("Luis");
         n2.setMiddleName("");
         n2.setLastName("Ruiz");
+        n2.setUserName("luis");
+        n2.setPassword("luis123");
         nurseRepository.save(n2);
 
         Nurse n3 = new Nurse();
         n3.setFirstName("Maria");
         n3.setMiddleName("");
         n3.setLastName("Crez");
+        n3.setUserName("maria");
+        n3.setPassword("maria123");
         nurseRepository.save(n3);
 
-        System.out.println(" Nureses saved: " + nurseRepository.count());
+        System.out.println(" Nurses saved: " + nurseRepository.count());
 
 
 

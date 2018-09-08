@@ -21,6 +21,8 @@ public class Nurse {
     private String firstName;
     private String middleName;
     private String lastName;
+    private String userName;
+    private String password;
     //private License license;
 
 

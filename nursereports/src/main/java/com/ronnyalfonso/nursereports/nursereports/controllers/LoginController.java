@@ -28,7 +28,7 @@ public class LoginController {
 
     NurseServiceImpl nurseServiceImpl;
 
-    @RequestMapping(value = LOGIN_URL, method = RequestMethod.POST)
+    @RequestMapping(value = LOGIN_URL, method = RequestMethod.GET)
     public ModelAndView login(HttpServletRequest request, HttpServletResponse response, @ModelAttribute(LOGIN_VIEW) Login login){
 
         ModelAndView mv = new ModelAndView(LOGIN_VIEW);
@@ -42,7 +42,7 @@ public class LoginController {
     public ModelAndView loginProcess(HttpServletRequest request, HttpServletResponse response, @ModelAttribute(LOGIN_VIEW) Login login) {
 
         ModelAndView mv = null;
-        Nurse nurse = nurseServiceImpl.validateNurse(login);
+        Nurse nurse = nurseServiceImpl.findByUserNameAndPassword (login.getUsername(), login.getPassword());
         if (null != nurse) {
             mv = new ModelAndView(WELCOME_VIEW);
             mv.addObject(NURSE_NAME_FIELD, nurse.getFirstName());

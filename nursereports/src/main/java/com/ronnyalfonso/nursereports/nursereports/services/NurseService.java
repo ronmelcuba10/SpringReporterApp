@@ -13,5 +13,12 @@ public interface NurseService {
 
     List<Nurse> findAllNurse();
 
+    void register(Nurse nurse);
+
+    Nurse findByUserNameAndPassword(String  userName, String password);
+
+    Nurse save(Nurse nurse);
+
+
 
 }
