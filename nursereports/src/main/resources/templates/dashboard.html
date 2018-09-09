@@ -1,11 +1,11 @@
 <!DOCTYPE HTML>
-<html th:replace="~{main :: layout('Dashboard', ~{::main}, 'dashboard.css', 'dashboard.js')}" xmlns:th="http://www.thymeleaf.org">>
+<html th:replace="~{main :: layout('Dashboard', ~{::main}, 'dashboard.css', 'dashboard.js')}" xmlns:th="http://www.thymeleaf.org">
 
 <body>
 
 
     <main>
-        <h1 th:text="'Nurses of the system ' + ${name}"></h1>
+        <h1 th:text="'Nurses of the system '"></h1>
         <table>
             <tr>
                 <th>First Name</th>
@@ -19,7 +19,18 @@
             </tr>
         </table>
 
-        <h1 th:text="'The selected nurse' + ${nurse}"> </h1>
+
+        <h1 th:text="'Agencies in the system'"></h1>
+        <table>
+            <tr>
+                <th>Agency</th>
+            </tr>
+            <tr th:each="agency : ${agencies}">
+                <td th:text="${agency.name}"></td>
+            </tr>
+        </table>
+
+
 
         <h1>All the patients</h1>
         <table>
@@ -37,11 +48,12 @@
             </tr>
         </table>
 
+
         <div class="mt-3"></div>
         <p th:text="'First Patient ' + ${patient.firstName} + ' ' + ${patient.lastName}"></p>
 
-
-        <h1 th:text="${nurse.firstName}">'s patients</h1>
+        <div class="mt-3"></div>
+        <h1 th:text="${nurse.firstName} + '\'s patients'"></h1>
         <table>
             <tr>
                 <th>First Name</th>
@@ -52,6 +64,15 @@
                 <td th:text="${np.firstName}"></td>
                 <td th:text="${np.middleName}"></td>
                 <td th:text="${np.lastName}"></td>
+            </tr>
+        </table>
+
+
+        <div class="mt-3"></div>
+        <h1 th:text="${nurse.firstName} + '\'s agencies'"/>
+        <table>
+            <tr th:each="na : ${nurse.agencies}">
+                <td th:text="${na.agency.name}"></td>
             </tr>
         </table>
 
