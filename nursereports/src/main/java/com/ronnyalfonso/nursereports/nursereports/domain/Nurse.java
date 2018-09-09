@@ -25,7 +25,7 @@ public class Nurse {
     private String password;
     //private License license;
 
-    @OneToMany(mappedBy = "nurse")
+    @OneToMany(mappedBy = "nurse", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<NurseAgency> agencies = new ArrayList<>();
 
     public void addAgency(Agency agency) {

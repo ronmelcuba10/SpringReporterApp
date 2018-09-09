@@ -1,16 +1,11 @@
 package com.ronnyalfonso.nursereports.nursereports.bootstrapdata;
 
-import com.ronnyalfonso.nursereports.nursereports.domain.Agency;
-import com.ronnyalfonso.nursereports.nursereports.domain.Nurse;
-import com.ronnyalfonso.nursereports.nursereports.domain.NurseAgency;
-import com.ronnyalfonso.nursereports.nursereports.domain.Patient;
-import com.ronnyalfonso.nursereports.nursereports.repositories.AgencyRepository;
-import com.ronnyalfonso.nursereports.nursereports.repositories.NurseAgencyRepository;
-import com.ronnyalfonso.nursereports.nursereports.repositories.NurseRepository;
-import com.ronnyalfonso.nursereports.nursereports.repositories.PatientRepository;
+import com.ronnyalfonso.nursereports.nursereports.domain.*;
+import com.ronnyalfonso.nursereports.nursereports.repositories.*;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.stereotype.Component;
 
+import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.Arrays;
 
@@ -24,12 +19,14 @@ public class BootStrapData implements CommandLineRunner {
     private final PatientRepository patientRepository;
     private final AgencyRepository agencyRepository;
     private final NurseAgencyRepository nurseAgencyRepository;
+    private final NursePaymentRepository nursePaymentRepository;
 
-    public BootStrapData(NurseRepository nurseRepository, PatientRepository patientRepository, AgencyRepository agencyRepository, NurseAgencyRepository nurseAgencyRepository) {
+    public BootStrapData(NurseRepository nurseRepository, PatientRepository patientRepository, AgencyRepository agencyRepository, NurseAgencyRepository nurseAgencyRepository, NursePaymentRepository nursePaymentRepository) {
         this.nurseRepository = nurseRepository;
         this.patientRepository = patientRepository;
         this.agencyRepository = agencyRepository;
         this.nurseAgencyRepository = nurseAgencyRepository;
+        this.nursePaymentRepository = nursePaymentRepository;
     }
 
 
@@ -46,6 +43,10 @@ public class BootStrapData implements CommandLineRunner {
         ArrayList<Nurse> nurses = GetNurses(agencies);
         nurses.stream().forEach( n -> nurseRepository.save(n));
         System.out.println(" Nurses saved: " + nurseRepository.count());
+        //nurses = (ArrayList<Nurse>)nurseRepository.findAll();
+
+        GetNursePayments(nurses).stream().forEach( p -> nursePaymentRepository.save(p));
+        System.out.println(" Nurse's payments saved: " + nursePaymentRepository.count());
 
         //GetNurseAgencies( nurses.get(0), new Agency[] {agencies.get(0), agencies.get(1)}).stream().forEach( na -> nurseAgencyRepository.save(na));
         //GetNurseAgencies( nurses.get(1), new Agency[] {agencies.get(0), agencies.get(1)}).stream().forEach( na -> nurseAgencyRepository.save(na));
@@ -176,8 +177,8 @@ public class BootStrapData implements CommandLineRunner {
         n1.setUserName("mario");
         n1.setPassword("mario123");
 
-        n1.addAgency(agencies.get(0));
-        n1.addAgency(agencies.get(1));
+        //n1.addAgency(agencies.get(0));
+        //n1.addAgency(agencies.get(1));
         nurses.add(n1);
 
         Nurse n2 = new Nurse();
@@ -186,7 +187,7 @@ public class BootStrapData implements CommandLineRunner {
         n2.setLastName("Ruiz");
         n2.setUserName("luis");
         n2.setPassword("luis123");
-        n2.addAgency(agencies.get(1));
+        //n2.addAgency(agencies.get(1));
         nurses.add(n2);
 
         Nurse n3 = new Nurse();
@@ -195,14 +196,66 @@ public class BootStrapData implements CommandLineRunner {
         n3.setLastName("Crez");
         n3.setUserName("maria");
         n3.setPassword("maria123");
-        n3.addAgency(agencies.get(0));
-        n3.addAgency(agencies.get(1));
-        n3.addAgency(agencies.get(2));
+        //n3.addAgency(agencies.get(0));
+        //n3.addAgency(agencies.get(1));
+        //n3.addAgency(agencies.get(2));
         nurses.add(n3);
-
 
         return nurses;
     }
+
+    private ArrayList<NursePayment> GetNursePayments(ArrayList<Nurse> nurses){
+
+        System.out.println("registering nurse payments");
+
+        ArrayList<NursePayment> payments = new ArrayList<>(nurses.size());
+
+        NursePayment np1 = new NursePayment();
+        np1.setNurse(nurses.get(0));
+        np1.setMonth(Month.April);
+        np1.setAmount( new BigDecimal("50.0"));
+        np1.setYear(2018);
+        payments.add(np1);
+
+        NursePayment np2 = new NursePayment();
+        np2.setNurse(nurses.get(0));
+        np2.setMonth(Month.May);
+        np2.setAmount( new BigDecimal("50.0"));
+        np2.setYear(2018);
+        payments.add(np2);
+
+        NursePayment np3 = new NursePayment();
+        np3.setNurse(nurses.get(0));
+        np3.setMonth(Month.June);
+        np3.setAmount( new BigDecimal("50.0"));
+        np3.setYear(2018);
+        payments.add(np3);
+
+        NursePayment np4 = new NursePayment();
+        np4.setNurse(nurses.get(1));
+        np4.setMonth(Month.April);
+        np4.setAmount( new BigDecimal("50.0"));
+        np4.setYear(2018);
+        payments.add(np4);
+
+        NursePayment np5 = new NursePayment();
+        np5.setNurse(nurses.get(2));
+        np5.setMonth(Month.April);
+        np5.setAmount( new BigDecimal("50.0"));
+        np5.setYear(2018);
+        payments.add(np5);
+
+        NursePayment np6 = new NursePayment();
+        np6.setNurse(nurses.get(2));
+        np6.setMonth(Month.May);
+        np6.setAmount( new BigDecimal("18.0"));
+        np6.setYear(2018);
+        payments.add(np6);
+
+        return payments;
+
+    }
+
 
 
     private ArrayList<NurseAgency> GetNurseAgencies(Nurse nurse, Agency[] agencies){

@@ -17,10 +17,12 @@ public class NurseAgency implements Serializable {
 
     @ManyToOne(fetch = FetchType.LAZY)
     @MapsId("nurseId")
+    //@JoinColumn(name = "nurse_id", nullable = false)
     private Nurse nurse;
 
     @ManyToOne(fetch = FetchType.LAZY)
     @MapsId("agencyId")
+    //@JoinColumn(name = "agency_id", nullable = false)
     private Agency agency;
 
     private String nurseRecord;

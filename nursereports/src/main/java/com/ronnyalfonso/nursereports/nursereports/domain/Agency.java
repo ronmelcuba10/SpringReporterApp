@@ -2,6 +2,7 @@ package com.ronnyalfonso.nursereports.nursereports.domain;
 
 import lombok.Data;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Entity;
 import javax.persistence.OneToMany;
 import java.util.ArrayList;
@@ -19,7 +20,7 @@ public class Agency extends Named{
     private Boolean active;
     private String reportUrl;
 
-    @OneToMany(mappedBy = "agency")
+    @OneToMany(mappedBy = "agency", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<NurseAgency> nurses = new ArrayList<>();
 
 }
