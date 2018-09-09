@@ -23,7 +23,9 @@ public class Nurse {
     private String lastName;
     private String userName;
     private String password;
-    //private License license;
+
+    @Enumerated(EnumType.STRING)
+    private License license;
 
     @OneToMany(mappedBy = "nurse", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<NurseAgency> agencies = new ArrayList<>();

@@ -176,6 +176,7 @@ public class BootStrapData implements CommandLineRunner {
         n1.setLastName("Perez");
         n1.setUserName("mario");
         n1.setPassword("mario123");
+        n1.setLicense(License.LPN);
 
         //n1.addAgency(agencies.get(0));
         //n1.addAgency(agencies.get(1));
@@ -187,6 +188,7 @@ public class BootStrapData implements CommandLineRunner {
         n2.setLastName("Ruiz");
         n2.setUserName("luis");
         n2.setPassword("luis123");
+        n2.setLicense(License.RN);
         //n2.addAgency(agencies.get(1));
         nurses.add(n2);
 
@@ -196,6 +198,7 @@ public class BootStrapData implements CommandLineRunner {
         n3.setLastName("Crez");
         n3.setUserName("maria");
         n3.setPassword("maria123");
+        n3.setLicense(License.LPN);
         //n3.addAgency(agencies.get(0));
         //n3.addAgency(agencies.get(1));
         //n3.addAgency(agencies.get(2));
