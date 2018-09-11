@@ -2,6 +2,7 @@ package com.ronnyalfonso.nursereports.nursereports.bootstrapdata;
 
 import com.ronnyalfonso.nursereports.nursereports.domain.*;
 import com.ronnyalfonso.nursereports.nursereports.repositories.*;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.stereotype.Component;
 
@@ -15,18 +16,25 @@ import java.util.Arrays;
 @Component
 public class BootStrapData implements CommandLineRunner {
 
+    @Autowired
     private final NurseRepository nurseRepository;
+    @Autowired
     private final PatientRepository patientRepository;
+    @Autowired
     private final AgencyRepository agencyRepository;
     private final NurseAgencyRepository nurseAgencyRepository;
     private final NursePaymentRepository nursePaymentRepository;
+    @Autowired
+    private final LimitationRepository limitationRepository;
 
-    public BootStrapData(NurseRepository nurseRepository, PatientRepository patientRepository, AgencyRepository agencyRepository, NurseAgencyRepository nurseAgencyRepository, NursePaymentRepository nursePaymentRepository) {
+
+    public BootStrapData(NurseRepository nurseRepository, PatientRepository patientRepository, AgencyRepository agencyRepository, NurseAgencyRepository nurseAgencyRepository, NursePaymentRepository nursePaymentRepository, LimitationRepository limitationRepository) {
         this.nurseRepository = nurseRepository;
         this.patientRepository = patientRepository;
         this.agencyRepository = agencyRepository;
         this.nurseAgencyRepository = nurseAgencyRepository;
         this.nursePaymentRepository = nursePaymentRepository;
+        this.limitationRepository = limitationRepository;
     }
 
 
@@ -35,82 +43,53 @@ public class BootStrapData implements CommandLineRunner {
     @Override
     public void run(String... args) throws Exception {
 
+        System.out.println("Loading agencies ");
         ArrayList<Agency> agencies = GetAgencies();
-        agencies.stream().forEach( a -> agencyRepository.save(a));
-        System.out.println(" Agencies saved: " + agencyRepository.count());
-        //agencies = (ArrayList<Agency>)agencyRepository.findAll();
 
+        System.out.println("Loading Nurses ");
         ArrayList<Nurse> nurses = GetNurses(agencies);
+
+        System.out.println("Saving the limitations");
+        ArrayList<Limitation> limitations = GetLimitations();
+
+        System.out.println("Loading Patients ");
+        ArrayList<Patient> patients = GetPatients(nurses);
+
+
         nurses.stream().forEach( n -> nurseRepository.save(n));
-        System.out.println(" Nurses saved: " + nurseRepository.count());
-        //nurses = (ArrayList<Nurse>)nurseRepository.findAll();
+        agencies.stream().forEach( a -> agencyRepository.save(a));
+        limitations.stream().forEach( l -> limitationRepository.save(l));
+        patients.stream().forEach( p -> patientRepository.save(p));
 
-        GetNursePayments(nurses).stream().forEach( p -> nursePaymentRepository.save(p));
-        System.out.println(" Nurse's payments saved: " + nursePaymentRepository.count());
+        System.out.println("registering nurse payments");
+        ArrayList<NursePayment> payments = SetNurseAndPayments(nurses);
 
-        //GetNurseAgencies( nurses.get(0), new Agency[] {agencies.get(0), agencies.get(1)}).stream().forEach( na -> nurseAgencyRepository.save(na));
-        //GetNurseAgencies( nurses.get(1), new Agency[] {agencies.get(0), agencies.get(1)}).stream().forEach( na -> nurseAgencyRepository.save(na));
-        //GetNurseAgencies( nurses.get(2), new Agency[] {agencies.get(0), agencies.get(1), agencies.get(2)}).stream().forEach( na -> nurseAgencyRepository.save(na));
+        payments.stream().forEach( p-> nursePaymentRepository.save(p));
 
-        //ArrayList<Patient> patients = new ArrayList<>(4);
-        GetPatients(nurses).stream().forEach( p -> patientRepository.save(p));
-        System.out.println(" Patient saved: " + patientRepository.count());
 
-    }
+        // Patients limitations
+        SetPatientLimitations( patients.get(0), new Limitation[]{limitations.get(0), limitations.get(2)});
+        SetPatientLimitations( patients.get(1), new Limitation[]{limitations.get(1), limitations.get(2),limitations.get(3)});
+        SetPatientLimitations( patients.get(2), new Limitation[]{limitations.get(1), limitations.get(4), limitations.get(3),limitations.get(2)});
+        patients.stream().forEach( p -> patientRepository.save(p));
 
-    private ArrayList<NurseAgency> GetNurseAgencies(ArrayList<Nurse> nurses, ArrayList<Agency> agencies) {
+        //Nurses Agencies
+        ArrayList<NurseAgency> nurseAgencies = new ArrayList<>(1);
+        nurseAgencies.addAll(SetNurseAndAgencies(nurses.get(0), new Agency[]{agencies.get(0), agencies.get(1), agencies.get(2)}));
+        nurseAgencies.addAll(SetNurseAndAgencies(nurses.get(1), new Agency[]{agencies.get(0), agencies.get(1)}));
+        nurseAgencies.addAll(SetNurseAndAgencies(nurses.get(2), new Agency[]{agencies.get(1), agencies.get(2)}));
 
-        System.out.println("Registering the nurses in their agencies");
+        nurseAgencies.stream().forEach( na -> nurseAgencyRepository.save(na));
 
-        ArrayList<NurseAgency> nurseAgencies = new ArrayList<>(3);
 
-        NurseAgency na1 = new NurseAgency();
-        na1.setNurse(nurses.get(0));
-        na1.setAgency(agencies.get(0));
-        nurseAgencies.add(na1);
-
-        NurseAgency na2 = new NurseAgency();
-        na2.setNurse(nurses.get(0));
-        na2.setAgency(agencies.get(1));
-        nurseAgencies.add(na2);
-
-        NurseAgency na3 = new NurseAgency();
-        na3.setNurse(nurses.get(1));
-        na3.setAgency(agencies.get(1));
-        nurseAgencies.add(na3);
-
-        NurseAgency na4 = new NurseAgency();
-        na4.setNurse(nurses.get(1));
-        na4.setAgency(agencies.get(2));
-        nurseAgencies.add(na4);
-
-        NurseAgency na5 = new NurseAgency();
-        na5.setNurse(nurses.get(2));
-        na5.setAgency(agencies.get(0));
-        nurseAgencies.add(na5);
-
-        NurseAgency na6 = new NurseAgency();
-        na6.setNurse(nurses.get(2));
-        na6.setAgency(agencies.get(1));
-        nurseAgencies.add(na6);
-
-        NurseAgency na7 = new NurseAgency();
-        na7.setNurse(nurses.get(2));
-        na7.setAgency(agencies.get(2));
-        nurseAgencies.add(na7);
-
-        System.out.println("The Nurses were registered successfully");
-
-        return nurseAgencies;
 
 
     }
+
 
     private ArrayList<Agency> GetAgencies() {
 
         ArrayList<Agency> agencies = new ArrayList<>(3);
-
-        System.out.println("Loading agencies ");
 
         Agency a1 = new Agency();
         a1.setName("Agency 1");
@@ -127,48 +106,9 @@ public class BootStrapData implements CommandLineRunner {
         return agencies;
     }
 
-    private ArrayList<Patient> GetPatients(ArrayList<Nurse> nurses) {
-
-        ArrayList<Patient> patients = new ArrayList<>(4);
-
-        System.out.println("Loading Patients ");
-
-        Patient p1 = new Patient();
-        p1.setFirstName("Pepe");
-        p1.setMiddleName("J");
-        p1.setLastName("Mirabal");
-        p1.setNurse(nurses.get(0));
-        patients.add(p1);
-
-        Patient p2 = new Patient();
-        p2.setFirstName("Luisa");
-        p2.setMiddleName("");
-        p2.setLastName("Montes");
-        p2.setNurse(nurses.get(0));
-        patients.add(p2);
-
-        Patient p3 = new Patient();
-        p3.setFirstName("Gisela");
-        p3.setMiddleName("");
-        p3.setLastName("Glez");
-        p3.setNurse(nurses.get(1));
-        patients.add(p3);
-
-        Patient p4 = new Patient();
-        p4.setFirstName("Teresa");
-        p4.setMiddleName("");
-        p4.setLastName("Prio");
-        p4.setNurse(nurses.get(0));
-        patients.add(p4);
-
-        return patients;
-    }
-
     private ArrayList<Nurse> GetNurses(ArrayList<Agency> agencies) {
 
         ArrayList<Nurse> nurses = new ArrayList<>(3);
-
-        System.out.println("Loading Nurses ");
 
         Nurse n1 = new Nurse();
         n1.setFirstName("Mario");
@@ -207,11 +147,99 @@ public class BootStrapData implements CommandLineRunner {
         return nurses;
     }
 
-    private ArrayList<NursePayment> GetNursePayments(ArrayList<Nurse> nurses){
+    private ArrayList<Limitation> GetLimitations(){
 
-        System.out.println("registering nurse payments");
+        ArrayList<Limitation> limitations = new ArrayList<>(5);
 
-        ArrayList<NursePayment> payments = new ArrayList<>(nurses.size());
+        Limitation l1 = new Limitation();
+        l1.setName("blindness");
+        limitations.add(l1);
+
+        Limitation l2 = new Limitation();
+        l2.setName("hand tremors");
+        limitations.add(l2);
+
+        Limitation l3 = new Limitation();
+        l3.setName("poor hand coordination");
+        limitations.add(l3);
+
+        Limitation l4 = new Limitation();
+        l4.setName("poor manual dexterity");
+        limitations.add(l4);
+
+        Limitation l5 = new Limitation();
+        l5.setName("mental status");
+        limitations.add(l5);
+
+        return limitations;
+
+
+    }
+
+    private ArrayList<Patient> GetPatients(ArrayList<Nurse> nurses) {
+
+        ArrayList<Patient> patients = new ArrayList<>(4);
+
+        Patient p1 = new Patient();
+        p1.setFirstName("Pepe");
+        p1.setMiddleName("J");
+        p1.setLastName("Mirabal");
+        p1.setNurse(nurses.get(0));
+        p1.setAssistant(Assistant.patient);
+        patients.add(p1);
+
+        Patient p2 = new Patient();
+        p2.setFirstName("Luisa");
+        p2.setMiddleName("");
+        p2.setLastName("Montes");
+        p2.setNurse(nurses.get(0));
+        p2.setAssistant(Assistant.ALF_staff);
+        patients.add(p2);
+
+        Patient p3 = new Patient();
+        p3.setFirstName("Gisela");
+        p3.setMiddleName("");
+        p3.setLastName("Glez");
+        p3.setNurse(nurses.get(1));
+        p3.setAssistant(Assistant.caregiver);
+        patients.add(p3);
+
+        Patient p4 = new Patient();
+        p4.setFirstName("Teresa");
+        p4.setMiddleName("");
+        p4.setLastName("Prio");
+        p4.setNurse(nurses.get(0));
+        patients.add(p4);
+
+        return patients;
+    }
+
+    private ArrayList<NurseAgency> SetNurseAndAgencies(Nurse nurse, Agency[] agencies) {
+
+        ArrayList<NurseAgency> nurseagencies = new ArrayList<>(agencies.length);
+
+        for (int i=0; i<agencies.length; i++){
+            NurseAgency na = new NurseAgency();
+            na.setNurse(nurse);
+            na.setAgency(agencies[i]);
+            na.setNurseRecord(nurse.getFirstName() + agencies[i].getName());
+            nurseagencies.add(na);
+            nurse.getAgencies().add(na);
+            agencies[i].getNurses().add(na);
+        }
+        return nurseagencies;
+    }
+
+    private void SetPatientLimitations(Patient patient, Limitation[] limitations){
+        Arrays.stream(limitations).forEach(l->{
+            patient.getLimitations().add(l);
+            l.getPatients().add(patient);
+        });
+    }
+
+    private ArrayList<NursePayment> SetNurseAndPayments(ArrayList<Nurse> nurses){
+
+        ArrayList<NursePayment> payments = new ArrayList<>();
 
         NursePayment np1 = new NursePayment();
         np1.setNurse(nurses.get(0));
@@ -261,20 +289,7 @@ public class BootStrapData implements CommandLineRunner {
 
 
 
-    private ArrayList<NurseAgency> GetNurseAgencies(Nurse nurse, Agency[] agencies){
-        ArrayList<NurseAgency> nas = new ArrayList<>(agencies.length);
-        Arrays.stream(agencies).forEach( agency -> {
-            NurseAgency na = new NurseAgency();
-            na.setAgency(agency);
-            na.setNurse(nurse);
-            na.setNurseRecord(nurse.getFirstName() + agency.getName());
-            nas.add(na);
-        });
-        return nas;
-
-    }
-
-
-
 
 }
+
+

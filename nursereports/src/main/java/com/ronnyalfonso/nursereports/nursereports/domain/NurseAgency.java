@@ -10,7 +10,7 @@ import java.io.Serializable;
  */
 @Entity
 @Data
-public class NurseAgency implements Serializable {
+public class NurseAgency {
 
     @EmbeddedId
     private NurseAgencyIdentity id;

@@ -4,6 +4,7 @@ import com.ronnyalfonso.nursereports.nursereports.ServicesImplementations.Agency
 import com.ronnyalfonso.nursereports.nursereports.ServicesImplementations.NursePaymentServiceImpl;
 import com.ronnyalfonso.nursereports.nursereports.ServicesImplementations.NurseServiceImpl;
 import com.ronnyalfonso.nursereports.nursereports.ServicesImplementations.PatientServiceImpl;
+import com.ronnyalfonso.nursereports.nursereports.repositories.LimitationRepository;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -19,12 +20,14 @@ public class DashboardController {
     private final PatientServiceImpl patientServiceImpl;
     private final AgencyServiceImpl agencyServiceImpl;
     private final NursePaymentServiceImpl nursePaymentServiceImpl;
+    private final LimitationRepository limitationRepository;
 
-    public DashboardController(NurseServiceImpl nurseServiceImpl, PatientServiceImpl patientServiceImpl, AgencyServiceImpl agencyServiceImpl, NursePaymentServiceImpl nursePaymentServiceImpl) {
+    public DashboardController(NurseServiceImpl nurseServiceImpl, PatientServiceImpl patientServiceImpl, AgencyServiceImpl agencyServiceImpl, NursePaymentServiceImpl nursePaymentServiceImpl, LimitationRepository limitationRepository) {
         this.nurseServiceImpl = nurseServiceImpl;
         this.patientServiceImpl = patientServiceImpl;
         this.agencyServiceImpl = agencyServiceImpl;
         this.nursePaymentServiceImpl = nursePaymentServiceImpl;
+        this.limitationRepository = limitationRepository;
     }
 
 
@@ -38,6 +41,7 @@ public class DashboardController {
         model.addAttribute("nursepatients", patientServiceImpl.findAllByNurse(nurseServiceImpl.findNurseById(1L)));
         model.addAttribute("agencies", agencyServiceImpl.findAll());
         model.addAttribute("paymets", nursePaymentServiceImpl.findAll());
+        model.addAttribute("limitations", limitationRepository.findAll());
         return "dashboard";
     }
 

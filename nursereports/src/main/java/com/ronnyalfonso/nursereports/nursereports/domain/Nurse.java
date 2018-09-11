@@ -30,11 +30,12 @@ public class Nurse {
     @OneToMany(mappedBy = "nurse", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<NurseAgency> agencies = new ArrayList<>();
 
-    public void addAgency(Agency agency) {
+    // need the extra column
+    public void addAgency(Agency agency) {//, String nurseRecord) {
         NurseAgency nurseAgency = new NurseAgency();
         nurseAgency.setAgency(agency);
         nurseAgency.setNurse(this);
-        agencies.add(nurseAgency);
+        //nurseAgency.setNurseRecord(nurseRecord);
         agency.getNurses().add(nurseAgency);
     }
 

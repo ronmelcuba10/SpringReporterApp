@@ -41,12 +41,14 @@
                         <th>Middle Name</th>
                         <th>Last Name</th>
                         <th>Nurse</th>
+                        <th class="pl-2">Assistant</th>
                     </tr>
                     <tr th:each="patient : ${allpatients}">
                         <td th:text="${patient.firstName}"></td>
                         <td th:text="${patient.middleName}"></td>
                         <td th:text="${patient.lastName}"></td>
                         <td th:text="${patient.nurse.firstName}"></td>
+                        <td th:text="${patient.assistant}"  class="pl-2"></td>
                     </tr>
                 </table>
 
@@ -82,21 +84,46 @@
             <div class="col">
 
                 <div class="mt-3"></div>
-                <h1 th:text="${nurse.firstName} + '\'s payments'"/>
+                <h1>"All the payments'"</h1>
                 <table>
                     <tr>
-                        <th>Nurse</th>
+                        <th class="pr-3">Nurse</th>
                         <th>Month</th>
                         <th>Year</th>
                         <th class="pl-5">Amount</th>
                     </tr>
                     <tr th:each="p : ${paymets}">
-                        <td th:text="${p.nurse.firstName}"></td>
+                        <td th:text="${p.nurse.firstName}" class="pr-3"></td>
                         <td th:text="${p.month}"></td>
                         <td th:text="${p.year}"></td>
                         <td th:text="'$' + ${p.amount}" class="pl-5"></td>
                     </tr>
                 </table>
+
+                <div class="mt-3"></div>
+                <h1>"All limitations per patient"</h1>
+                <table th:each="p : ${allpatients}">
+                    <tr>
+                        <th th:text="${p}"></th>
+                    </tr>
+                    <tr th:each="l : ${p.limitations}">
+                        <td th:text="${l.name}"></td>
+                    </tr>
+                </table>
+
+                <div class="mt-3"></div>
+                <h1>"All limitations in system"</h1>
+                <table>
+                    <tr>
+                        <th>Limitations</th>
+                    </tr>
+                    <tr th:each="l : ${limitations}">
+                        <td th:text="${l.name}"></td>
+                    </tr>
+                </table>
+
+
+
             </div>
             <div class="col"></div>
         </div>

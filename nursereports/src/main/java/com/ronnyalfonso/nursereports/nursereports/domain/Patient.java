@@ -4,6 +4,10 @@ import lombok.Data;
 import org.springframework.boot.autoconfigure.domain.EntityScan;
 
 import javax.persistence.*;
+import java.util.ArrayList;
+import java.util.HashSet;
+import java.util.List;
+import java.util.Set;
 
 /**
  * By Ron on 9/8/2018
@@ -37,9 +41,26 @@ public class Patient {
     private Boolean isDeleted;
     private Boolean paid;
 
+    @Enumerated(EnumType.STRING)
+    private Assistant assistant;
+
     @ManyToOne(optional = false)
     @JoinColumn(name = "nurse_id", nullable = false)
     private Nurse nurse;
-    //private AssistantType assistantType;
+
+    @ManyToMany(cascade = {
+            CascadeType.PERSIST,
+            CascadeType.MERGE
+    })
+    @JoinTable(
+            joinColumns = @JoinColumn(name="patient_id"),
+            inverseJoinColumns = @JoinColumn( name="limitation_id")
+    )
+    List<Limitation> limitations = new ArrayList<>();
+
+    @Override
+    public String toString(){
+        return String.format("%s %s %s", firstName, middleName, lastName);
+    }
 
 }

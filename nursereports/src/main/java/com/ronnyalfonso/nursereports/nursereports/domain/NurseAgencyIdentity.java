@@ -15,10 +15,10 @@ import java.util.Objects;
 @Data
 public class NurseAgencyIdentity implements Serializable {
 
-    @Column(name="nurse_id")
+    //@Column(name="nurse_id")
     private Long nurseId;
 
-    @Column(name="agency_id")
+    //@Column(name="agency_id")
     private Long agencyId;
 
     @Override
