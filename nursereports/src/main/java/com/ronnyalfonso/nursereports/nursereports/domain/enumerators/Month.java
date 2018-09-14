@@ -1,4 +1,4 @@
-package com.ronnyalfonso.nursereports.nursereports.domain;
+package com.ronnyalfonso.nursereports.nursereports.domain.enumerators;
 
 /**
  * By Ron on 9/9/2018

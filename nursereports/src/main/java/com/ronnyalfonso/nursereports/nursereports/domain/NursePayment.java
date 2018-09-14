@@ -1,5 +1,6 @@
 package com.ronnyalfonso.nursereports.nursereports.domain;
 
+import com.ronnyalfonso.nursereports.nursereports.domain.enumerators.Month;
 import lombok.Data;
 
 import javax.persistence.*;

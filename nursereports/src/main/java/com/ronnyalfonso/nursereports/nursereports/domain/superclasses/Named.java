@@ -1,4 +1,4 @@
-package com.ronnyalfonso.nursereports.nursereports.domain;
+package com.ronnyalfonso.nursereports.nursereports.domain.superclasses;
 
 import lombok.Data;
 import org.springframework.data.jpa.domain.support.AuditingEntityListener;

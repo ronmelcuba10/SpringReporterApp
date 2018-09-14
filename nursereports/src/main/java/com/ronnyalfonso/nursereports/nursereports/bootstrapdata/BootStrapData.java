@@ -1,6 +1,9 @@
 package com.ronnyalfonso.nursereports.nursereports.bootstrapdata;
 
 import com.ronnyalfonso.nursereports.nursereports.domain.*;
+import com.ronnyalfonso.nursereports.nursereports.domain.enumerators.Assistant;
+import com.ronnyalfonso.nursereports.nursereports.domain.enumerators.License;
+import com.ronnyalfonso.nursereports.nursereports.domain.enumerators.Month;
 import com.ronnyalfonso.nursereports.nursereports.repositories.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.CommandLineRunner;
@@ -22,6 +25,7 @@ public class BootStrapData implements CommandLineRunner {
     private final PatientRepository patientRepository;
     @Autowired
     private final AgencyRepository agencyRepository;
+    @Autowired
     private final NurseAgencyRepository nurseAgencyRepository;
     private final NursePaymentRepository nursePaymentRepository;
     @Autowired
@@ -78,8 +82,19 @@ public class BootStrapData implements CommandLineRunner {
         nurseAgencies.addAll(SetNurseAndAgencies(nurses.get(0), new Agency[]{agencies.get(0), agencies.get(1), agencies.get(2)}));
         nurseAgencies.addAll(SetNurseAndAgencies(nurses.get(1), new Agency[]{agencies.get(0), agencies.get(1)}));
         nurseAgencies.addAll(SetNurseAndAgencies(nurses.get(2), new Agency[]{agencies.get(1), agencies.get(2)}));
+        for (int i=0; i<nurseAgencies.size();i++){
+            nurseAgencyRepository.save(nurseAgencies.get(i));
+        }
 
-        nurseAgencies.stream().forEach( na -> nurseAgencyRepository.save(na));
+//        NurseAgency na = new NurseAgency();
+//        na.setAgency(agencies.get(0));
+//        na.setNurse(nurses.get(0));
+//        nurseAgencyRepository.save(na);
+
+       // nurses.get(0).addAgency(agencies.get(0));
+       // nurseRepository.save(nurses.get(0));
+       // agencyRepository.save(agencies.get(0));
+
 
 
 
@@ -224,8 +239,8 @@ public class BootStrapData implements CommandLineRunner {
             na.setAgency(agencies[i]);
             na.setNurseRecord(nurse.getFirstName() + agencies[i].getName());
             nurseagencies.add(na);
-            nurse.getAgencies().add(na);
-            agencies[i].getNurses().add(na);
+            //nurse.getAgencies().add(na);
+            //agencies[i].getNurses().add(na);
         }
         return nurseagencies;
     }

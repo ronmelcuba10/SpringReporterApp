@@ -1,6 +1,7 @@
 package com.ronnyalfonso.nursereports.nursereports.domain;
 
 
+import com.ronnyalfonso.nursereports.nursereports.domain.enumerators.License;
 import lombok.Data;
 
 import javax.persistence.*;
@@ -51,5 +52,8 @@ public class Nurse {
         }
     }
 
-
+    @Override
+    public String toString() {
+        return id + " " + firstName + " " + middleName + " " + lastName;
+    }
 }

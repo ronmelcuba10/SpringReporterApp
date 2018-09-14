@@ -1,13 +1,11 @@
 package com.ronnyalfonso.nursereports.nursereports.domain;
 
+import com.ronnyalfonso.nursereports.nursereports.domain.enumerators.Assistant;
 import lombok.Data;
-import org.springframework.boot.autoconfigure.domain.EntityScan;
 
 import javax.persistence.*;
 import java.util.ArrayList;
-import java.util.HashSet;
 import java.util.List;
-import java.util.Set;
 
 /**
  * By Ron on 9/8/2018

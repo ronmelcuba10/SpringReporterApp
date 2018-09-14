@@ -1,5 +1,6 @@
 package com.ronnyalfonso.nursereports.nursereports.domain;
 
+import com.ronnyalfonso.nursereports.nursereports.domain.superclasses.Named;
 import lombok.Data;
 
 import javax.persistence.*;
@@ -11,7 +12,7 @@ import java.util.List;
  */
 @Entity
 @Data
-public class Limitation extends Named{
+public class Limitation extends Named {
 
     @ManyToMany(mappedBy = "limitations")
     List<Patient> patients = new ArrayList<>();

@@ -1,5 +1,6 @@
 package com.ronnyalfonso.nursereports.nursereports.domain;
 
+import com.ronnyalfonso.nursereports.nursereports.domain.superclasses.Named;
 import lombok.Data;
 
 import javax.persistence.CascadeType;
@@ -13,7 +14,7 @@ import java.util.List;
  */
 @Entity
 @Data
-public class Agency extends Named{
+public class Agency extends Named {
 
     private String description;
     private Boolean tested;

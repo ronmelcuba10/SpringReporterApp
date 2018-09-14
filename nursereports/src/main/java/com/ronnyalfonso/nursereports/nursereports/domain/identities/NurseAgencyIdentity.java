@@ -1,10 +1,9 @@
-package com.ronnyalfonso.nursereports.nursereports.domain;
+package com.ronnyalfonso.nursereports.nursereports.domain.identities;
 
 import lombok.Data;
 
 import javax.persistence.Column;
 import javax.persistence.Embeddable;
-import javax.validation.constraints.NotNull;
 import java.io.Serializable;
 import java.util.Objects;
 
@@ -15,10 +14,10 @@ import java.util.Objects;
 @Data
 public class NurseAgencyIdentity implements Serializable {
 
-    //@Column(name="nurse_id")
+    @Column(name="nurse_id")
     private Long nurseId;
 
-    //@Column(name="agency_id")
+    @Column(name="agency_id")
     private Long agencyId;
 
     @Override

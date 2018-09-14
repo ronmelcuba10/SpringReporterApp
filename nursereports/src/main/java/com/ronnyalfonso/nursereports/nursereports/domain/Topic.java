@@ -6,10 +6,10 @@ import lombok.Data;
 import javax.persistence.Entity;
 
 /**
- * By Ron on 9/9/2018
+ * By Ron on 9/13/2018
  */
 @Entity
 @Data
-public class Category extends Named {
-
+public class Topic extends Named {
+    // conclusiones, extras, introduccion ...
 }
