@@ -78,13 +78,13 @@ public class BootStrapData implements CommandLineRunner {
         patients.stream().forEach( p -> patientRepository.save(p));
 
         //Nurses Agencies
-        ArrayList<NurseAgency> nurseAgencies = new ArrayList<>(1);
-        nurseAgencies.addAll(SetNurseAndAgencies(nurses.get(0), new Agency[]{agencies.get(0), agencies.get(1), agencies.get(2)}));
-        nurseAgencies.addAll(SetNurseAndAgencies(nurses.get(1), new Agency[]{agencies.get(0), agencies.get(1)}));
-        nurseAgencies.addAll(SetNurseAndAgencies(nurses.get(2), new Agency[]{agencies.get(1), agencies.get(2)}));
-        for (int i=0; i<nurseAgencies.size();i++){
-            nurseAgencyRepository.save(nurseAgencies.get(i));
-        }
+//        ArrayList<NurseAgency> nurseAgencies = new ArrayList<>(1);
+//        nurseAgencies.addAll(SetNurseAndAgencies(nurses.get(0), new Agency[]{agencies.get(0), agencies.get(1), agencies.get(2)}));
+//        nurseAgencies.addAll(SetNurseAndAgencies(nurses.get(1), new Agency[]{agencies.get(0), agencies.get(1)}));
+//        nurseAgencies.addAll(SetNurseAndAgencies(nurses.get(2), new Agency[]{agencies.get(1), agencies.get(2)}));
+//        for (int i=0; i<nurseAgencies.size();i++){
+//            nurseAgencyRepository.save(nurseAgencies.get(i));
+//        }
 
 //        NurseAgency na = new NurseAgency();
 //        na.setAgency(agencies.get(0));
@@ -258,42 +258,42 @@ public class BootStrapData implements CommandLineRunner {
 
         NursePayment np1 = new NursePayment();
         np1.setNurse(nurses.get(0));
-        np1.setMonth(Month.April);
+        np1.setMonth(Month.APRIL);
         np1.setAmount( new BigDecimal("50.0"));
         np1.setYear(2018);
         payments.add(np1);
 
         NursePayment np2 = new NursePayment();
         np2.setNurse(nurses.get(0));
-        np2.setMonth(Month.May);
+        np2.setMonth(Month.MAY);
         np2.setAmount( new BigDecimal("50.0"));
         np2.setYear(2018);
         payments.add(np2);
 
         NursePayment np3 = new NursePayment();
         np3.setNurse(nurses.get(0));
-        np3.setMonth(Month.June);
+        np3.setMonth(Month.JUNE);
         np3.setAmount( new BigDecimal("50.0"));
         np3.setYear(2018);
         payments.add(np3);
 
         NursePayment np4 = new NursePayment();
         np4.setNurse(nurses.get(1));
-        np4.setMonth(Month.April);
+        np4.setMonth(Month.APRIL);
         np4.setAmount( new BigDecimal("50.0"));
         np4.setYear(2018);
         payments.add(np4);
 
         NursePayment np5 = new NursePayment();
         np5.setNurse(nurses.get(2));
-        np5.setMonth(Month.April);
+        np5.setMonth(Month.APRIL);
         np5.setAmount( new BigDecimal("50.0"));
         np5.setYear(2018);
         payments.add(np5);
 
         NursePayment np6 = new NursePayment();
         np6.setNurse(nurses.get(2));
-        np6.setMonth(Month.May);
+        np6.setMonth(Month.MAY);
         np6.setAmount( new BigDecimal("18.0"));
         np6.setYear(2018);
         payments.add(np6);
