@@ -32,11 +32,11 @@ public class Nurse {
     private List<NurseAgency> agencies = new ArrayList<>();
 
     // need the extra column
-    public void addAgency(Agency agency) {//, String nurseRecord) {
+    public void addAgency(Agency agency, String nurseRecord) {
         NurseAgency nurseAgency = new NurseAgency();
         nurseAgency.setAgency(agency);
         nurseAgency.setNurse(this);
-        //nurseAgency.setNurseRecord(nurseRecord);
+        nurseAgency.setNurseRecord(nurseRecord);
         agency.getNurses().add(nurseAgency);
     }
 

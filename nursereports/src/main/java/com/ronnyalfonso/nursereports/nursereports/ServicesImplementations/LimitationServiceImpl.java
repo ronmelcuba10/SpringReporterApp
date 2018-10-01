@@ -20,9 +20,15 @@ public class LimitationServiceImpl implements LimitationService {
         this.limitationRepository = limitationRepository;
     }
 
+
     @Override
     public Limitation save(Limitation limitation) {
         return limitationRepository.save(limitation);
+    }
+
+    @Override
+    public List<Limitation> findAll() {
+        return limitationRepository.findAll();
     }
 
 }

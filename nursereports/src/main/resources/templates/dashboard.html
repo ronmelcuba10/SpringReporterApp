@@ -76,7 +76,7 @@
                 <div class="mt-3"></div>
                 <h1 th:text="${nurse.firstName} + '\'s agencies'"/>
                 <table>
-                    <tr th:each="na : ${nurse.agencies}">
+                    <tr th:each="na : ${mariosagencies}">
                         <td th:text="${na.agency.name}"></td>
                     </tr>
                 </table>

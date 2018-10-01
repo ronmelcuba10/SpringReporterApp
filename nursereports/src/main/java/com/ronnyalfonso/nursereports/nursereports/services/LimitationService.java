@@ -1,7 +1,6 @@
 package com.ronnyalfonso.nursereports.nursereports.services;
 
 import com.ronnyalfonso.nursereports.nursereports.domain.Limitation;
-import com.ronnyalfonso.nursereports.nursereports.domain.Patient;
 
 import java.util.List;
 
@@ -11,5 +10,7 @@ import java.util.List;
 public interface LimitationService {
 
     Limitation save(Limitation limitation);
+
+    List<Limitation> findAll();
 
 }

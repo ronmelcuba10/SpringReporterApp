@@ -1,10 +1,7 @@
 package com.ronnyalfonso.nursereports.nursereports.controllers;
 
-import com.ronnyalfonso.nursereports.nursereports.ServicesImplementations.AgencyServiceImpl;
-import com.ronnyalfonso.nursereports.nursereports.ServicesImplementations.NursePaymentServiceImpl;
-import com.ronnyalfonso.nursereports.nursereports.ServicesImplementations.NurseServiceImpl;
-import com.ronnyalfonso.nursereports.nursereports.ServicesImplementations.PatientServiceImpl;
-import com.ronnyalfonso.nursereports.nursereports.repositories.LimitationRepository;
+import com.ronnyalfonso.nursereports.nursereports.ServicesImplementations.*;
+import com.ronnyalfonso.nursereports.nursereports.services.NurseAgencyService;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -20,14 +17,18 @@ public class DashboardController {
     private final PatientServiceImpl patientServiceImpl;
     private final AgencyServiceImpl agencyServiceImpl;
     private final NursePaymentServiceImpl nursePaymentServiceImpl;
-    private final LimitationRepository limitationRepository;
+    private final LimitationServiceImpl limitationServiceImpl;
+    private final NurseAgencyService nurseAgencyServiceImpl;
 
-    public DashboardController(NurseServiceImpl nurseServiceImpl, PatientServiceImpl patientServiceImpl, AgencyServiceImpl agencyServiceImpl, NursePaymentServiceImpl nursePaymentServiceImpl, LimitationRepository limitationRepository) {
+    public DashboardController(NurseServiceImpl nurseServiceImpl, PatientServiceImpl patientServiceImpl,
+                               AgencyServiceImpl agencyServiceImpl, NursePaymentServiceImpl nursePaymentServiceImpl,
+                               LimitationServiceImpl limitationServiceImpl, NurseAgencyService nurseAgencyServiceImpl) {
         this.nurseServiceImpl = nurseServiceImpl;
         this.patientServiceImpl = patientServiceImpl;
         this.agencyServiceImpl = agencyServiceImpl;
         this.nursePaymentServiceImpl = nursePaymentServiceImpl;
-        this.limitationRepository = limitationRepository;
+        this.limitationServiceImpl = limitationServiceImpl;
+        this.nurseAgencyServiceImpl = nurseAgencyServiceImpl;
     }
 
 
@@ -41,7 +42,8 @@ public class DashboardController {
         model.addAttribute("nursepatients", patientServiceImpl.findAllByNurse(nurseServiceImpl.findNurseById(1L)));
         model.addAttribute("agencies", agencyServiceImpl.findAll());
         model.addAttribute("paymets", nursePaymentServiceImpl.findAll());
-        model.addAttribute("limitations", limitationRepository.findAll());
+        model.addAttribute("limitations", limitationServiceImpl.findAll());
+        model.addAttribute("mariosagencies", nurseServiceImpl.findNurseById(1L).getAgencies());
         return "dashboard";
     }
 
